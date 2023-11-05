@@ -1,0 +1,68 @@
+{% extends 'myapp/base.html' %}
+{% block content %}
+    <h2 style="color: #ecf0f1;">Booking Confirmation</h2>
+    <form action="{% url 'home' %}" method="post">
+        {% csrf_token %}
+        <h2 style="color: #2ecc71;">Your booking has been confirmed!</h2>
+        <h2 style="color: #e74c3c;">Thank you!</h2>
+        <h3 style="color: #8e44ad;">Bus Ticket Details</h3>
+
+        <!-- Add payment information -->
+        <div class="alert alert-dark" role="alert">
+            <h4 class="alert-heading" style="color: #3498db;">Payment Details</h4>
+            <p style="color: #ecf0f1;">Thank you for choosing DST Bus Reservation System. To complete your booking, please proceed with the payment.</p>
+            <!-- Example QR Code -->
+            <img src="example_qr_code.png" alt="QR Code" class="img-fluid">
+            <!-- Example Payment Link -->
+            <p style="color: #ecf0f1;">Alternatively, you can make the payment using this <a href="example_payment_link" target="_blank" style="color: #3498db;">payment link</a>.</p>
+        </div>
+
+        <!-- Button to Open the Modal -->
+        <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#myModal">
+            View Ticket Details
+        </button>
+
+        <!-- The Modal -->
+        <div class="modal" id="myModal">
+            <!-- ... (unchanged modal content) ... -->
+        </div>
+
+        <div class="text-center">
+            <button type="submit" class="btn btn-success">OK</button>
+        </div>
+    </form>
+{% endblock %}
+{% extends 'myapp/base.html' %}
+{% block content %}
+<form method="POST">
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script>
+    var options = {
+        key: "{{razorpay_key}}",
+        amount: "{{order.amount}}",
+        currency: "INR",
+        name: "{{order.name}}",
+        description: "Test Transaction",
+        image: "https://example.com/your_logo",
+        order_id: "{{order.provider_order_id}}",
+        callback_url: "{{callback_url}}",
+        redirect: true,
+        prefill: {
+            "name": "Kowsic Nerella",
+            "email": "kowsic.nerella@example.com",
+            "contact": "9059931599"
+        },
+        notes: {
+            "address": "Razorpay Corporate Office"
+        },
+        theme: {
+            "color": "#3399cc"
+        }
+    };
+    var rzp1 = new Razorpay(options);
+    rzp1.open();
+    </script>
+    <input type="hidden" custom="Hidden Element" name="hidden">
+</form>
+{% endblock %}
+>

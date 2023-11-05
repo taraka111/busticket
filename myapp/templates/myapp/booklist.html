@@ -1,0 +1,57 @@
+{% extends 'myapp/base.html' %}
+
+{% block content %}
+  <h3 style="color: #3498db;">{{ msg }}</h3>
+  <h2 style="color: #2ecc71;">List of Buses</h2>
+
+  <table class="table table-striped" style="background-color: #34495e; color: #ecf0f1;">
+    <thead style="background-color: #2c3e50; color: #ecf0f1;">
+      <tr>
+        <th>Booking ID</th>
+        <th>User Name</th>
+        <th>Bus Name</th>
+        <th>Source</th>
+        <th>Destination</th>
+        <th>Num of Seats</th>
+        <th>Price</th>
+        <th>Date</th>
+        <th>Time</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in book_list %}
+        <tr>
+          <td>{{ row.id }}</td>
+          <td>{{ row.name }}</td>
+          <td>{{ row.bus_name }}</td>
+          <td>{{ row.source }}</td>
+          <td>{{ row.dest }}</td>
+          <td>{{ row.nos }}</td>
+          <td>{{ row.price }}</td>
+          <td>{{ row.date }}</td>
+          <td>{{ row.time }}</td>
+          <td>{{ row.status }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <form action="{% url 'cancellings' %}" method="post">
+    <h3 style="color: #e74c3c;">Choose Bus to Cancel</h3>
+    {% csrf_token %}
+    <div class="form-group row">
+      <label for="bus-id" class="col-sm-2 col-form-label" style="color: #3498db;">Bus ID</label>
+      <div class="col-sm-5">
+        <input name="bus_id" class="form-control" type="number" id="bus-id" style="background-color: #2c3e50; color: #ecf0f1;">
+      </div>
+    </div>
+
+    <br>
+    <div class="pull-right">
+      <button type="submit" class="btn btn-danger float-left">Cancel Bus</button>
+    </div>
+
+    {{ error }}
+  </form>
+{% endblock %}
